@@ -1,0 +1,51 @@
+{
+  "name": "remix-app-template",
+  "private": true,
+  "description": "",
+  "license": "",
+  "sideEffects": false,
+  "scripts": {
+    "build": "cross-env NODE_ENV=production remix build",
+    "dev": "cross-env NODE_ENV=development remix build && run-p dev:*",
+    "dev:node": "cross-env NODE_ENV=development nodemon ./build/index.js",
+    "dev:remix": "cross-env NODE_ENV=development remix watch",
+    "postinstall": "remix setup node",
+    "start": "cross-env NODE_ENV=production node ./build/index.js"
+  },
+  "dependencies": {
+    "@chakra-ui/react": "^1.8.5",
+    "@emotion/react": "^11.8.1",
+    "@emotion/styled": "^11.8.1",
+    "@mdx-js/mdx": "^2.0.0",
+    "@mdx-js/react": "^2.0.0",
+    "@remix-run/express": "^1.2.2",
+    "@remix-run/react": "^1.2.2",
+    "compression": "^1.7.4",
+    "cross-env": "^7.0.3",
+    "esbuild": "^0.14.23",
+    "express": "^4.17.1",
+    "firebase-admin": "^10.0.2",
+    "framer-motion": "^6.2.8",
+    "is-hotkey": "^0.2.0",
+    "mdx-bundler": "^8.0.1",
+    "morgan": "^1.10.0",
+    "npm-run-all": "^4.1.5",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-icons": "^4.3.1",
+    "remix": "^1.2.2",
+    "slate": "^0.73.0",
+    "slate-history": "^0.66.0",
+    "slate-react": "^0.73.0"
+  },
+  "devDependencies": {
+    "@remix-run/dev": "^1.2.2",
+    "@types/react": "^17.0.24",
+    "@types/react-dom": "^17.0.9",
+    "nodemon": "^2.0.15",
+    "typescript": "^4.5.5"
+  },
+  "engines": {
+    "node": ">=14"
+  }
+}
