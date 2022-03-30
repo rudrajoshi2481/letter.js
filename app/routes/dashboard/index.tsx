@@ -42,6 +42,9 @@ import { useContext, useState } from "react";
 import { PresContext, PresContextProvider } from "~/context/presContext";
 function Index() {
 
+  const createNewRow= (e) => {
+    Notification("New Notify")
+  }
   
   return (
     <>
@@ -56,6 +59,7 @@ function Index() {
       <OldPrescriptions />
 
       </HStack>
+      <Button onClick= {e => createNewRow(e)}>+ </Button>
       <Button>Save Prescription </Button>
       </VStack>
   </PresContextProvider>
@@ -111,7 +115,7 @@ const PresBox = () => {
 
 const PresStack = ({data}:any) => {
   return <Box py="3" w="full" display="flex" justifyContent="space-around" >
-<Text color="red"><AiFillWarning /></Text>
+<Text color="red  "><AiFillWarning /></Text>
 <VStack>
   <Text>Drug</Text>
 <Input mx="1" type="text" placeholder="name of Drug" value={data.nameDrug}/>
