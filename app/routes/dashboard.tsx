@@ -63,7 +63,7 @@ const PrivatePage = () => {
     <Heading py="3">Doc 🩺</Heading>
     
       
-      <Divider size={"3"} colorScheme="green" orientation='vertical' />
+      {/* <Divider size={"3"} colorScheme="green" orientation='vertical' /> */}
       <Outlet />
     
   </Container>

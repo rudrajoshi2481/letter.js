@@ -201,7 +201,7 @@ const CreateNewUser = () => {
             type="submit"
             colorScheme={"green"}
           >
-            Create User
+            Create Profile
           </Button>
           <Spacer />
         </HStack>
@@ -209,5 +209,8 @@ const CreateNewUser = () => {
     </Box>
   );
 };
+
+
+// prescription 
 
 export default Login;
