@@ -60,7 +60,7 @@ const NotSignInPage = () => {
 const PrivatePage = () => {
   return(
     <Container maxW="ontainer.lg">
-    <Heading py="3">Letter.js💕</Heading>
+    <Heading py="3">Doc 🩺</Heading>
     
       
       <Divider size={"3"} colorScheme="green" orientation='vertical' />

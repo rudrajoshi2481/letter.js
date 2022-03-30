@@ -6,7 +6,7 @@ function Navbar() {
   return (
     <Box background={"green.500"}>
         <UnorderedList display={"flex"}>
-          <ListItem p="3" color={"white"}  listStyleType={"none"} ><Link to="/">Homepage</Link></ListItem>
+          <ListItem p="3" color={"white"}  listStyleType={"none"} ><Link to="/">Labs 🔬</Link></ListItem>
           <ListItem p="3" color={"white"} listStyleType={"none"} ><Link to="/dashboard">Dashboard</Link></ListItem>
           <ListItem p="3" color={"white"} listStyleType={"none"} ><Link to="/login">Login</Link></ListItem>
         </UnorderedList>

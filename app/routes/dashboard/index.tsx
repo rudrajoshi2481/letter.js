@@ -7,6 +7,7 @@ import {
   HStack,
   ListItem,
   OmitCommonProps,
+  OrderedList,
   Text,
   UnorderedList,
   VStack,
@@ -25,31 +26,30 @@ function Index() {
       <Button  my="3" mb="3" >Create Letter ❤</Button>
       <Divider />
       <HStack justifyContent={"flex-start"} alignItems="flex-start">
-      <Sidebar />
       <Viewer />
+      <Divider orientation='vertical' />
+      <OldPrescriptions />
       </HStack>
     </>
   );
 }
 
 
-const Sidebar = () => {
+const OldPrescriptions = () => {
   
   return (
-    <VStack alignItems={"flex-start"}>
-      
-      <Box style={{ minWidth: "15vw" }}>
+    <VStack pl="9" pt="3" alignItems={"flex-start"}>
+        <Heading fontSize="2xl">Old Prescriptions</Heading>
         <UnorderedList>
-
+          <ListItem>date 17-15-87</ListItem>
         </UnorderedList>
-      </Box>
     </VStack>
   );
 };
 
 const Viewer = () => {
   return(
-    <Box>
+    <Box >
       <Box pt="5">
         
       <SlateEditor />

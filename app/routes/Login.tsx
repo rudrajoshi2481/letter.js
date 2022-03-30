@@ -107,6 +107,16 @@ const LoginUser = () => {
   return (
     <Box>
       <Form method="post">
+      <FormLabel>Center</FormLabel>
+        <Input
+          name="center"
+          type="center"
+          required
+          placeholder="Digital Labs"
+        ></Input>
+
+<Spacer />
+        {/* All Old inputs Down*/}
         <FormLabel>Email</FormLabel>
         <Input
           name="email"
@@ -168,6 +178,20 @@ const CreateNewUser = () => {
           placeholder="password"
           name="password"
           type="password"
+        ></Input>
+        <FormLabel>Centre Name</FormLabel>
+        <Input
+          type="text"
+          required
+          name="centerName"
+          placeholder="Center Name"
+        ></Input>
+        <FormLabel>Licence</FormLabel>
+        <Input
+          type="file"
+          required
+          // name="licence"
+          // placeholder="Jhon Doe"
         ></Input>
         <Spacer />
         <HStack mt="6" justifyContent={"center"} alignItems="center">
