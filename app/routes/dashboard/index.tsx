@@ -39,6 +39,13 @@ import { AiOutlineDown, AiFillWarning } from "react-icons/ai";
 import { PinInput, PinInputField } from "@chakra-ui/react";
 import { useContext, useState } from "react";
 import { PresContext, PresContextProvider } from "~/context/presContext";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbSeparator,
+} from '@chakra-ui/react'
+import FindPatient from "~/components/FindPatient";
 
 function Index() {
   // const [d,setD] = useContext(PresContext)
@@ -59,31 +66,49 @@ function Index() {
 
   // }
 
+  const [showPage,setShowPage] = useState(1)
+
   return (
     <>
       <PresContextProvider>
         <Button my="3" mb="3">
           Create New{" "}
         </Button>
-        <Divider />
-        <VStack justifyContent={"flex-start"} alignItems="flex-start">
-          <HStack justifyContent={"flex-start"} alignItems="flex-start">
-            <Viewer />
+  <Divider />
+        <Box>
+          <Breadcrumb py="3">
+  <BreadcrumbItem>
+    <BreadcrumbLink color="green" onClick={e => setShowPage(0)}>Find Patient</BreadcrumbLink>
+  </BreadcrumbItem>
+{
+  showPage === 1 ? 
+  <BreadcrumbItem>
+    <BreadcrumbLink href='#'>name of Patient</BreadcrumbLink>
+  </BreadcrumbItem> : null
+}
+  </Breadcrumb >
+        </Box>
+      {
+        showPage === 1 ?   <VStack justifyContent={"flex-start"} alignItems="flex-start">
+        <HStack w="full" justifyContent={"space-between"} alignItems="flex-start">
+          <Viewer />
 
-            <OldPrescriptions />
-          </HStack>
+          <OldPrescriptions />
+        </HStack>
 
-          <Button
-            onClick={(e) => {
-              window.print();
-              console.log("print");
-            }}
-          >
-            Print 🖨️
-          </Button>
+        <Button
+          onClick={(e) => {
+            window.print();
+            console.log("print");
+          }}
+        >
+          Print 🖨️
+        </Button>
+        <Button>Search Nearest Store</Button>
 
-          <Button>Save Prescription </Button>
-        </VStack>
+        <Button>Save Prescription </Button>
+      </VStack> : <FindPatient />
+      }
       </PresContextProvider>
     </>
   );
@@ -91,7 +116,7 @@ function Index() {
 
 const OldPrescriptions = () => {
   return (
-    <VStack pl="9" pt="3" alignItems={"flex-start"}>
+    <VStack pl="9" pt="3" mr="15" alignItems={"flex-start"}>
       <Heading fontSize="2xl">Old Prescriptions</Heading>
       <UnorderedList>
         <ListItem listStyleType="none">date 17-15-87</ListItem>
@@ -103,27 +128,22 @@ const OldPrescriptions = () => {
 const Viewer = () => {
   const [d, setD] = useContext(PresContext);
   const addRow = (e: any) => {
+    let oldData = [];
 
-    let oldData = []
-
-    d.map((oldD:any) => {
-      oldData.push(oldD)
-    })
+    d.map((oldD: any) => {
+      oldData.push(oldD);
+    });
 
     oldData.push({
       nameDrug: "",
       dosageForm: "",
       mg: "",
       duration: "",
-      
-    })
+    });
 
-
-    setD(oldData)
+    setD(oldData);
 
     console.log(d);
-    
-
   };
 
   return (
@@ -133,7 +153,6 @@ const Viewer = () => {
         <Button
           onClick={(e) => {
             addRow(e);
-            
           }}
         >
           Add +
@@ -162,11 +181,20 @@ const PresBox = () => {
 const PresStack = ({ data }: any) => {
   const [preCon, setPreCon] = useContext(PresContext);
 
-  const changeUpdate = (data: any) => {};
+  const changeUpdate = (data: any,type:any) => {
+    preCon.map((p:any) => {
+      if(p.drugName === type ){
+
+      }
+    })
+  };
 
   return (
     <Box py="3" w="full" display="flex" justifyContent="space-around">
       {/* <Text color="red  "><AiFillWarning /></Text> */}
+      {/* {
+        JSON.stringify(preCon)
+      } */}
       <VStack>
         <Text>Drug</Text>
         <Input
@@ -174,12 +202,12 @@ const PresStack = ({ data }: any) => {
           type="text"
           placeholder="name of Drug"
           value={data.nameDrug}
-          onChange={(e) => changeUpdate(e)}
+          onChange={(data) => changeUpdate(data,"drugName")}
         />
       </VStack>
       <Spacer />
       <VStack mx="2">
-        <Text>Dosage Form</Text>
+        <Text> Dosage Form</Text>
         <Menu>
           <MenuButton
             value={data.dosageForm}
