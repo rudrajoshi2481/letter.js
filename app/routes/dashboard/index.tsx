@@ -18,6 +18,7 @@ import { Link } from "react-router-dom";
 import SlateEditor from "~/components/SlateEditor";
 
 
+
 import {
   Menu,
   MenuButton,
@@ -40,12 +41,28 @@ import {AiOutlineDown,AiFillWarning} from "react-icons/ai"
 import { PinInput, PinInputField } from '@chakra-ui/react'
 import { useContext, useState } from "react";
 import { PresContext, PresContextProvider } from "~/context/presContext";
+// import uuid from "uuid";
+
 function Index() {
 
-  const createNewRow= (e) => {
-    Notification("New Notify")
-  }
-  
+  // const [d,setD] = useContext(PresContext)
+
+  // const addMainData = (e:any) => {
+    // const o = {
+    //   nameDrug: "",
+    //   dosageForm: "",
+    //   mg: "",
+    //   duration: "",
+    // }
+
+    // let last = d
+
+    // last.push(o)
+
+    // setD(last)
+
+  // }
+
   return (
     <>
   <PresContextProvider>
@@ -59,7 +76,9 @@ function Index() {
       <OldPrescriptions />
 
       </HStack>
-      <Button onClick= {e => createNewRow(e)}>+ </Button>
+      
+      <Button onClick={e => {window.print()}} >Print 🖨️</Button>
+      
       <Button>Save Prescription </Button>
       </VStack>
   </PresContextProvider>
@@ -81,11 +100,15 @@ const OldPrescriptions = () => {
 };
 
 const Viewer = () => {
+
+
+
   return(
     <Box >
+
       <Box >
       <PresBox />  
-      {/* <SlateEditor /> */}
+      
       </Box>
     </Box>
   )
@@ -114,11 +137,19 @@ const PresBox = () => {
 }
 
 const PresStack = ({data}:any) => {
+
+  const [preCon,setPreCon] = useContext(PresContext)
+
+
+  const changeUpdate = (data:any) => {
+    
+  }
+
   return <Box py="3" w="full" display="flex" justifyContent="space-around" >
-<Text color="red  "><AiFillWarning /></Text>
+{/* <Text color="red  "><AiFillWarning /></Text> */}
 <VStack>
   <Text>Drug</Text>
-<Input mx="1" type="text" placeholder="name of Drug" value={data.nameDrug}/>
+<Input mx="1" type="text" placeholder="name of Drug"  value={data.nameDrug} onChange={e => changeUpdate(e)}/>
 </VStack>
 <Spacer />
 <VStack mx="2">
