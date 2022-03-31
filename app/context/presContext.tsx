@@ -1,7 +1,7 @@
 import { createContext, useState } from "react";
 
 export const PresContext = createContext<any>(null);
-import uuid from "uuid";
+// import uuid from "uuid";
 
 export const PresContextProvider = (props: any) => {
   
@@ -25,7 +25,7 @@ export const PresContextProvider = (props: any) => {
       dosageForm: "",
       mg: "",
       duration: "",
-      id:uuid.v4()
+      
     },
   ]);
 

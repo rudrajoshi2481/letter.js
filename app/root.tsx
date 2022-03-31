@@ -30,7 +30,7 @@ export const meta: MetaFunction = () => {
 const Document = () => {
   return (
     <body>
-       <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+       <ColorModeScript initialColorMode={"dark"} />
       <ChakraProvider>
         <Navbar />
         <Outlet />
