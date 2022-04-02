@@ -44,8 +44,9 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbSeparator,
-} from '@chakra-ui/react'
+} from "@chakra-ui/react";
 import FindPatient from "~/components/FindPatient";
+import MapFinder from "~/components/MapFinder";
 
 function Index() {
   // const [d,setD] = useContext(PresContext)
@@ -66,7 +67,7 @@ function Index() {
 
   // }
 
-  const [showPage,setShowPage] = useState(1)
+  const [showPage, setShowPage] = useState(1);
 
   return (
     <>
@@ -74,41 +75,49 @@ function Index() {
         <Button my="3" mb="3">
           Create New{" "}
         </Button>
-  <Divider />
+        <Divider />
         <Box>
           <Breadcrumb py="3">
-  <BreadcrumbItem>
-    <BreadcrumbLink color="green" onClick={e => setShowPage(0)}>Find Patient</BreadcrumbLink>
-  </BreadcrumbItem>
-{
-  showPage === 1 ? 
-  <BreadcrumbItem>
-    <BreadcrumbLink href='#'>name of Patient</BreadcrumbLink>
-  </BreadcrumbItem> : null
-}
-  </Breadcrumb >
+            <BreadcrumbItem>
+              <BreadcrumbLink color="green" onClick={(e) => setShowPage(0)}>
+                Find Patient
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            {showPage === 1 ? (
+              <BreadcrumbItem>
+                <BreadcrumbLink href="#">name of Patient</BreadcrumbLink>
+              </BreadcrumbItem>
+            ) : null}
+          </Breadcrumb>
+          <MapFinder />
         </Box>
-      {
-        showPage === 1 ?   <VStack justifyContent={"flex-start"} alignItems="flex-start">
-        <HStack w="full" justifyContent={"space-between"} alignItems="flex-start">
-          <Viewer />
+        {showPage === 1 ? (
+          <VStack justifyContent={"flex-start"} alignItems="flex-start">
+            <HStack
+              w="full"
+              justifyContent={"space-between"}
+              alignItems="flex-start"
+            >
+              <Viewer />
 
-          <OldPrescriptions />
-        </HStack>
+              <OldPrescriptions />
+            </HStack>
 
-        <Button
-          onClick={(e) => {
-            window.print();
-            console.log("print");
-          }}
-        >
-          Print 🖨️
-        </Button>
-        <Button>Search Nearest Store</Button>
+            <Button
+              onClick={(e) => {
+                window.print();
+                console.log("print");
+              }}
+            >
+              Print 🖨️
+            </Button>
+            <Button>Search Nearest Store</Button>
 
-        <Button>Save Prescription </Button>
-      </VStack> : <FindPatient />
-      }
+            <Button>Save Prescription </Button>
+          </VStack>
+        ) : (
+          <FindPatient />
+        )}
       </PresContextProvider>
     </>
   );
@@ -139,6 +148,7 @@ const Viewer = () => {
       dosageForm: "",
       mg: "",
       duration: "",
+      id: new Date().getTime(),
     });
 
     setD(oldData);
@@ -181,20 +191,53 @@ const PresBox = () => {
 const PresStack = ({ data }: any) => {
   const [preCon, setPreCon] = useContext(PresContext);
 
-  const changeUpdate = (data: any,type:any) => {
-    preCon.map((p:any) => {
-      if(p.drugName === type ){
+  const updateData = (e: any, id: any, type: any) => {
+    let oldD = preCon;
+    let newList: any = [];
+    oldD.map((oldd: any) => {
+      if (oldd.id === id) {
+        switch (type) {
+          case "nameDrug":
+            let tmpData = {
+              nameDrug: e.target.value,
+              dosageForm: oldd.dosageForm,
+              mg: oldd.md,
+              duration: oldd.duration,
+              id: oldd.id,
+            };
 
+            newList.push(tmpData);
+            break;
+            case "dosageForm":
+              let tmpDataDose = {
+                nameDrug: oldd.nameDrug,
+                dosageForm: e,
+                mg: oldd.md,
+                duration: oldd.duration,
+                id: oldd.id,
+              };
+  
+              newList.push(tmpDataDose);
+              break;
+
+        }
+      } else {
+        newList.push(oldd);
       }
-    })
+
+
+
+    });
+
+    console.log(newList,"NEW LIST");
+    console.log(oldD,"OLD LIST");
+    setPreCon(newList)
   };
 
   return (
     <Box py="3" w="full" display="flex" justifyContent="space-around">
       {/* <Text color="red  "><AiFillWarning /></Text> */}
-      {/* {
-        JSON.stringify(preCon)
-      } */}
+      {/* {JSON.stringify(preCon)} */}
       <VStack>
         <Text>Drug</Text>
         <Input
@@ -202,13 +245,15 @@ const PresStack = ({ data }: any) => {
           type="text"
           placeholder="name of Drug"
           value={data.nameDrug}
-          onChange={(data) => changeUpdate(data,"drugName")}
+          onChange={(e) => updateData(e, data.id, "nameDrug")}
         />
       </VStack>
       <Spacer />
       <VStack mx="2">
         <Text> Dosage Form</Text>
-        <Menu>
+        <Menu
+          
+        >
           <MenuButton
             value={data.dosageForm}
             as={Button}
@@ -217,11 +262,11 @@ const PresStack = ({ data }: any) => {
             {data.dosageForm}
           </MenuButton>
           <MenuList>
-            <MenuItem>Ointments</MenuItem>
-            <MenuItem>syrup</MenuItem>
-            <MenuItem>Tablet</MenuItem>
-            <MenuItem>Powder</MenuItem>
-            <MenuItem>Pills</MenuItem>
+            <MenuItem onClick={e => updateData("ointments", data.id, "dosageForm")}>Ointments</MenuItem>
+            <MenuItem onClick={e => updateData("syrup", data.id, "dosageForm")}>syrup</MenuItem>
+            <MenuItem onClick={e => updateData("tablets", data.id, "dosageForm")}>Tablet</MenuItem>
+            <MenuItem onClick={e => updateData("powder", data.id, "dosageForm")}>Powder</MenuItem>
+            <MenuItem onClick={e => updateData("pills", data.id, "dosageForm")}>Pills</MenuItem>
           </MenuList>
         </Menu>
       </VStack>
