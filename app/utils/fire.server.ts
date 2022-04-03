@@ -19,3 +19,5 @@ const a:any = {
 initializeApp({credential:cert(a)});
 export const firestore = getFirestore();
 export const fireAuth = getAuth();
+
+

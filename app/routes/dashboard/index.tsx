@@ -47,7 +47,7 @@ import {
 } from "@chakra-ui/react";
 import FindPatient from "~/components/FindPatient";
 import MapFinder from "~/components/MapFinder";
-
+import {BiArrowBack} from "react-icons/bi"
 function Index() {
   // const [d,setD] = useContext(PresContext)
 
@@ -80,7 +80,7 @@ function Index() {
           <Breadcrumb py="3">
             <BreadcrumbItem>
               <BreadcrumbLink color="green" onClick={(e) => setShowPage(0)}>
-                Find Patient
+             <HStack>  <BiArrowBack />  <Text> Find Patient</Text></HStack>
               </BreadcrumbLink>
             </BreadcrumbItem>
             {showPage === 1 ? (
@@ -89,7 +89,7 @@ function Index() {
               </BreadcrumbItem>
             ) : null}
           </Breadcrumb>
-          <MapFinder />
+          {/* <MapFinder /> */}
         </Box>
         {showPage === 1 ? (
           <VStack justifyContent={"flex-start"} alignItems="flex-start">
@@ -102,18 +102,20 @@ function Index() {
 
               <OldPrescriptions />
             </HStack>
-
-            <Button
+<HStack  justifyContent={"space-between"} alignItems="flex-end">
+  
+<Button
               onClick={(e) => {
                 window.print();
                 console.log("print");
               }}
             >
-              Print 🖨️
+              🖨️
             </Button>
-            <Button>Search Nearest Store</Button>
+            {/* <Button>Search Nearest Store</Button> */}
 
-            <Button>Save Prescription </Button>
+            <Button colorScheme={"green"}>Save Prescription </Button>
+</HStack>
           </VStack>
         ) : (
           <FindPatient />
@@ -180,7 +182,8 @@ const PresBox = () => {
       {/* <PresStack />
       <PresStack />
       <PresStack /> */}
-
+<HStack>
+</HStack>
       {d.map((r: any) => {
         return <PresStack data={r} />;
       })}

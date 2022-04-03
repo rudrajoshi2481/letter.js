@@ -30,7 +30,10 @@ const updateUser = ({ email, password, displayName, uid }: any) => {
       console.log("Error updating user:", error);
       return { status: "fail", error };
     });
+
+    
 };
+
 
 const deleteUser = async (uid: string) => {
   fireAuth

@@ -32,46 +32,80 @@ import { commitSession } from "~/sessions";
 import { createCustormToken, createUser } from "~/utils/auth.server";
 import { fireAuth, firestore } from "~/utils/fire.server";
 
+// export const action: ActionFunction = async ({ request }: any) => {
+//   const form = await request.formData();
+//   let formAction = form.get("_action");
+//   let email = form.get("email");
+//   let password = form.get("password");
+//   let profileName = form.get("profileName");
+
+//   const col = firestore.collection("users");
+//   let res : any;
+//   if (formAction === "createuser") {
+//     if (email && password && profileName) {
+//       await createUser({
+//         email,
+//         password,
+//         displayName: profileName,
+//       }).then(async (userRecord) => {
+//         res = { status: true, id: userRecord.uid };
+//         await createAndSaveSession(userRecord.uid,request)
+//       });
+//     }
+//   }
+
+//   return res.status ? redirect("/dashboard") : res
+// };
+
 export const action: ActionFunction = async ({ request }: any) => {
   const form = await request.formData();
   let formAction = form.get("_action");
   let email = form.get("email");
   let password = form.get("password");
-  let profileName = form.get("profileName");
+  let displayName = form.get("profileName");
+  let centerName = form.get("centerName");
 
-  const col = firestore.collection("users");
-  let res : any;
-  if (formAction === "createuser") {
-    if (email && password && profileName) {
-      await createUser({
-        email,
-        password,
-        displayName: profileName,
-      }).then(async (userRecord) => {
-        res = { status: true, id: userRecord.uid };
-        await createAndSaveSession(userRecord.uid,request)
-      });
-    }
+  const col = firestore.collection("rxlabsUsers");
+
+  let msg: any = "";
+  const collectionUser = firestore.collection("RxlabsUsers");
+let res;
+
+  switch (formAction) {
+    case "createUser":
+
+       res = await collectionUser
+        .doc()
+        .set({ email, displayName, password });
+      msg = { status: true, res };
+
+      break;
+    case "loginUser":
+      
+    // res = await collectionUser.
+      // let res = await collectionUser.get
+
+      break;
   }
-  
-  return res.status ? redirect("/dashboard") : res
+
+  return msg.status ? redirect("/dashboard") : msg;
 };
 
 function Login() {
   const ActionData = useActionData();
   const toast = useToast();
 
-useEffect(() => {
-  if(ActionData != null){
-    console.log("NOT NULL 01");
-    
-     if(ActionData.status ){
-       console.log("NOT NULL 01");
-       redirect ("/dashboard")
-     }
+  useEffect(() => {
+    ActionData
+      ? ActionData.status === "true"
+        ? redirect("/dashboard")
+        : null
+      : null;
+  }, []);
+
+  if (ActionData) {
   }
- 
-},[ActionData])
+
   return (
     <Container maxH="container.lg">
       {JSON.stringify(ActionData)}
@@ -107,7 +141,7 @@ const LoginUser = () => {
   return (
     <Box>
       <Form method="post">
-      <FormLabel>Center</FormLabel>
+        <FormLabel>Center</FormLabel>
         <Input
           name="center"
           type="center"
@@ -115,7 +149,7 @@ const LoginUser = () => {
           placeholder="Digital Labs"
         ></Input>
 
-<Spacer />
+        <Spacer />
         {/* All Old inputs Down*/}
         <FormLabel>Email</FormLabel>
         <Input
@@ -136,7 +170,7 @@ const LoginUser = () => {
         <HStack mt="6" justifyContent={"center"} alignItems="center">
           <Button
             name="_action"
-            value={"loginuser"}
+            value={"loginUser"}
             type="submit"
             colorScheme={"green"}
           >
@@ -151,8 +185,6 @@ const LoginUser = () => {
 
 const CreateNewUser = () => {
   const ActionData = useActionData();
-
-  
 
   return (
     <Box>
@@ -186,18 +218,18 @@ const CreateNewUser = () => {
           name="centerName"
           placeholder="Center Name"
         ></Input>
-        <FormLabel>Licence</FormLabel>
+        {/* <FormLabel>Licence</FormLabel>
         <Input
           type="file"
           required
           // name="licence"
           // placeholder="Jhon Doe"
-        ></Input>
+        ></Input> */}
         <Spacer />
         <HStack mt="6" justifyContent={"center"} alignItems="center">
           <Button
             name="_action"
-            value={"createuser"}
+            value={"createUser"}
             type="submit"
             colorScheme={"green"}
           >
@@ -210,7 +242,6 @@ const CreateNewUser = () => {
   );
 };
 
-
-// prescription 
+// prescription
 
 export default Login;
