@@ -18,7 +18,7 @@ import {
 import { json } from "express";
 import { getAuth } from "firebase-admin/auth";
 
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   ActionFunction,
   Form,
@@ -27,6 +27,7 @@ import {
   useSubmit,
   useTransition,
 } from "remix";
+import { LoginContext } from "~/context/loginDataContext";
 import { createAndSaveSession } from "~/logic/sessionAutrhLogic";
 import { commitSession } from "~/sessions";
 import { createCustormToken, createUser } from "~/utils/auth.server";
@@ -65,10 +66,10 @@ export const action: ActionFunction = async ({ request }: any) => {
   let displayName = form.get("profileName");
   let centerName = form.get("centerName");
 
-  const col = firestore.collection("rxlabsUsers");
+  const col = firestore.collection("rxLabsUsers");
 
   let msg: any = "";
-  const collectionUser = firestore.collection("RxlabsUsers");
+  const collectionUser = firestore.collection("rxLabsUsers");
 let res;
 
   switch (formAction) {
@@ -82,34 +83,42 @@ let res;
       break;
     case "loginUser":
       
-    // res = await collectionUser.
+    res = await collectionUser.get().then(snap => {
+      snap.forEach(d => {
+        if(email === d.data().email && password === d.data().password){
+          msg = { status: true, login:true ,data:d.data()};
+        }
+      })
+    }).catch(err => {
+      console.log(err);
+    })
+
       // let res = await collectionUser.get
 
       break;
   }
 
-  return msg.status ? redirect("/dashboard") : msg;
+  // return msg.status ? redirect(`/dashboard?email=${}`) : msg;
+  return msg.status ?  msg : null;
 };
 
 function Login() {
   const ActionData = useActionData();
   const toast = useToast();
-
+const [d,setD] = useContext(LoginContext)
   useEffect(() => {
-    ActionData
-      ? ActionData.status === "true"
-        ? redirect("/dashboard")
-        : null
-      : null;
-  }, []);
+    console.log(ActionData);
+    
+    if(ActionData){
+      setD(ActionData.data)
+    }
+  },[ActionData])
 
-  if (ActionData) {
-  }
 
   return (
     <Container maxH="container.lg">
-      {JSON.stringify(ActionData)}
-
+      
+    
       <Box
         display={"flex"}
         justifyContent="center"

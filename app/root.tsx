@@ -12,6 +12,7 @@ import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
 import Navbar from "./components/Navbar";
 // 1. import `extendTheme` function
 import { extendTheme, type ThemeConfig } from '@chakra-ui/react'
+import { LoginContext, LoginContextProvider } from "./context/loginDataContext";
 
 // 2. Add your color mode config
 const config: ThemeConfig = {
@@ -32,12 +33,14 @@ const Document = () => {
     <body>
        <ColorModeScript initialColorMode={"dark"} />
       <ChakraProvider>
-        <Navbar />
+      <LoginContextProvider>
+      <Navbar />
         <Outlet />
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
-            
+      
+        </LoginContextProvider>      
       </ChakraProvider>
     </body>
   );
